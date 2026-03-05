@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.1.0](https://github.com/dbfx/modern-win-mtr/compare/v1.0.0...v1.1.0) (2026-03-05)
+
+
+### Features
+
+* add README, app icon, and installer branding ([f7e37a7](https://github.com/dbfx/modern-win-mtr/commit/f7e37a73b04d6188f47e776b7fddbfbdd94518eb))
+
 ## 1.0.0 (2026-03-05)
 
 
