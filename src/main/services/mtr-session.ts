@@ -1,7 +1,7 @@
 import { EventEmitter } from 'events';
 import { MtrSessionConfig, MtrSessionState, DiscoveredHop } from '../../shared/types';
 import { runTraceroute, resolveHostname } from './traceroute';
-import { ping } from './ping';
+import { PersistentPing } from './persistent-ping';
 import { StatsCalculator } from './stats';
 import { lookupGeoIpFull } from './geoip';
 
@@ -10,7 +10,7 @@ export class MtrSession extends EventEmitter {
   private stats: StatsCalculator;
   private abortController: AbortController;
   private intervalHandle: ReturnType<typeof setInterval> | null = null;
-  private pingInFlight = false;
+  private persistentPings: PersistentPing[] = [];
   private discoveredHops: DiscoveredHop[] = [];
   private resolvedIp = '';
 
@@ -73,36 +73,23 @@ export class MtrSession extends EventEmitter {
   }
 
   private startPingLoop(): void {
-    // Send first round immediately
-    this.doPingRound();
+    // Start a persistent ping process for each hop with a known IP
+    for (const hop of this.discoveredHops) {
+      if (!hop.ip) continue;
 
-    this.intervalHandle = setInterval(() => {
-      this.doPingRound();
-    }, this.config.interval);
-  }
-
-  private async doPingRound(): Promise<void> {
-    if (this.pingInFlight) return; // Skip if previous round not done
-    this.pingInFlight = true;
-
-    const signal = this.abortController.signal;
-
-    try {
-      const pingsPromises = this.discoveredHops.map((hop) => {
-        if (!hop.ip) {
-          // Don't record samples for unknown hops — just skip them
-          return Promise.resolve();
+      const pp = new PersistentPing(hop.ip, 2000);
+      pp.on('result', (rtt: number | null) => {
+        if (!this.abortController.signal.aborted) {
+          this.stats.addSample(hop.hopNumber, rtt);
         }
-        return ping(hop.ip, 2000, signal).then((rtt) => {
-          if (!signal.aborted) {
-            this.stats.addSample(hop.hopNumber, rtt);
-          }
-        });
       });
+      pp.start();
+      this.persistentPings.push(pp);
+    }
 
-      await Promise.all(pingsPromises);
-
-      if (signal.aborted) return;
+    // Emit snapshots at the configured interval
+    this.intervalHandle = setInterval(() => {
+      if (this.abortController.signal.aborted) return;
 
       const state: MtrSessionState = {
         status: 'running',
@@ -113,9 +100,7 @@ export class MtrSession extends EventEmitter {
       };
 
       this.emit('data', state);
-    } finally {
-      this.pingInFlight = false;
-    }
+    }, this.config.interval);
   }
 
   stop(): void {
@@ -124,6 +109,10 @@ export class MtrSession extends EventEmitter {
       clearInterval(this.intervalHandle);
       this.intervalHandle = null;
     }
+    for (const pp of this.persistentPings) {
+      pp.stop();
+    }
+    this.persistentPings = [];
     this.emit('status', 'stopped');
   }
 }
