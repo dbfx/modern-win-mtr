@@ -35,8 +35,15 @@ contextBridge.exposeInMainWorld('mtrApi', {
     return () => { ipcRenderer.removeListener('loss:data', listener as (...args: unknown[]) => void); };
   },
 
-  // Auto-updater
+  // App info
   getVersion: () => ipcRenderer.invoke('app:version'),
+  getProcessVersions: () => ({
+    electron: process.versions.electron,
+    chrome: process.versions.chrome,
+    node: process.versions.node,
+  }),
+
+  // Auto-updater
   checkForUpdates: () => ipcRenderer.invoke('updater:check'),
   downloadUpdate: () => ipcRenderer.invoke('updater:download'),
   installUpdate: () => ipcRenderer.invoke('updater:install'),

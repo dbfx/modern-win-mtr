@@ -11,6 +11,7 @@ export interface MtrApi {
   stopLossMonitor: () => Promise<void>;
   onLossData: (callback: (state: LossMonitorState) => void) => () => void;
   getVersion: () => Promise<string>;
+  getProcessVersions: () => { electron: string; chrome: string; node: string };
   checkForUpdates: () => Promise<void>;
   downloadUpdate: () => Promise<void>;
   installUpdate: () => Promise<void>;

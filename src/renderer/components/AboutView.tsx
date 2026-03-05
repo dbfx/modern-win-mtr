@@ -8,6 +8,8 @@ export default function AboutView() {
   const [updateStatus, setUpdateStatus] = useState<UpdateStatus>('idle');
   const [downloadPercent, setDownloadPercent] = useState(0);
 
+  const processVersions = window.mtrApi.getProcessVersions();
+
   useEffect(() => {
     window.mtrApi.getVersion().then(setVersion);
 
@@ -131,9 +133,9 @@ export default function AboutView() {
           <div className="flex flex-col gap-2">
             <InfoRow label="Author" value="Dave" />
             <InfoRow label="License" value="MIT" />
-            <InfoRow label="Electron" value={process.versions.electron || 'N/A'} />
-            <InfoRow label="Chrome" value={process.versions.chrome || 'N/A'} />
-            <InfoRow label="Node" value={process.versions.node || 'N/A'} />
+            <InfoRow label="Electron" value={processVersions.electron} />
+            <InfoRow label="Chrome" value={processVersions.chrome} />
+            <InfoRow label="Node" value={processVersions.node} />
           </div>
         </div>
       </motion.div>
