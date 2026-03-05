@@ -62,4 +62,9 @@ contextBridge.exposeInMainWorld('mtrApi', {
     ipcRenderer.on('updater:error', listener as (...args: unknown[]) => void);
     return () => { ipcRenderer.removeListener('updater:error', listener as (...args: unknown[]) => void); };
   },
+
+  // Alerts
+  loadAlertRules: () => ipcRenderer.invoke('alerts:load'),
+  saveAlertRules: (rules: unknown) => ipcRenderer.invoke('alerts:save', rules),
+  showNotification: (title: string, body: string) => ipcRenderer.invoke('alerts:notify', title, body),
 });

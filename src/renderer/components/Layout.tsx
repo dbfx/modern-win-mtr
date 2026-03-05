@@ -2,8 +2,8 @@ import React from 'react';
 import { motion } from 'framer-motion';
 
 interface LayoutProps {
-  activeView: 'trace' | 'map' | 'loss' | 'about';
-  onViewChange: (view: 'trace' | 'map' | 'loss' | 'about') => void;
+  activeView: 'trace' | 'map' | 'visual' | 'loss' | 'alerts' | 'about';
+  onViewChange: (view: 'trace' | 'map' | 'visual' | 'loss' | 'alerts' | 'about') => void;
   children: React.ReactNode;
 }
 
@@ -37,11 +37,27 @@ export default function Layout({ activeView, onViewChange, children }: LayoutPro
           </SidebarButton>
 
           <SidebarButton
+            active={activeView === 'visual'}
+            onClick={() => onViewChange('visual')}
+            title="Visual Trace"
+          >
+            <RouteSvg />
+          </SidebarButton>
+
+          <SidebarButton
             active={activeView === 'loss'}
             onClick={() => onViewChange('loss')}
             title="Packet Loss"
           >
             <SignalSvg />
+          </SidebarButton>
+
+          <SidebarButton
+            active={activeView === 'alerts'}
+            onClick={() => onViewChange('alerts')}
+            title="Alerts"
+          >
+            <BellSvg />
           </SidebarButton>
 
           <div className="flex-1" />
@@ -100,7 +116,7 @@ function SidebarButton({
 
 function TraceSvg() {
   return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <circle cx="5" cy="6" r="2" />
       <circle cx="12" cy="12" r="2" />
       <circle cx="19" cy="18" r="2" />
@@ -112,7 +128,7 @@ function TraceSvg() {
 
 function GlobeSvg() {
   return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <circle cx="12" cy="12" r="10" />
       <line x1="2" y1="12" x2="22" y2="12" />
       <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
@@ -122,7 +138,7 @@ function GlobeSvg() {
 
 function SignalSvg() {
   return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <rect x="4" y="14" width="3" height="6" rx="1" />
       <rect x="10" y="10" width="3" height="10" rx="1" />
       <rect x="16" y="6" width="3" height="14" rx="1" />
@@ -130,9 +146,28 @@ function SignalSvg() {
   );
 }
 
+function RouteSvg() {
+  return (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="6" cy="19" r="3" />
+      <path d="M9 19h8.5a3.5 3.5 0 0 0 0-7h-11a3.5 3.5 0 0 1 0-7H18" />
+      <circle cx="18" cy="5" r="3" />
+    </svg>
+  );
+}
+
+function BellSvg() {
+  return (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+      <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+    </svg>
+  );
+}
+
 function InfoSvg() {
   return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <circle cx="12" cy="12" r="10" />
       <line x1="12" y1="16" x2="12" y2="12" />
       <line x1="12" y1="8" x2="12.01" y2="8" />

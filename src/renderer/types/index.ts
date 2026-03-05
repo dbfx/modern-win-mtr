@@ -1,4 +1,4 @@
-import type { MtrSessionConfig, MtrSessionState, DiscoveredHop, LossMonitorState } from '../../shared/types';
+import type { MtrSessionConfig, MtrSessionState, DiscoveredHop, LossMonitorState, AlertRule } from '../../shared/types';
 
 export interface MtrApi {
   startSession: (config: MtrSessionConfig) => Promise<void>;
@@ -18,6 +18,9 @@ export interface MtrApi {
   onUpdaterStatus: (callback: (status: string) => void) => () => void;
   onUpdaterProgress: (callback: (percent: number) => void) => () => void;
   onUpdaterError: (callback: (message: string) => void) => () => void;
+  loadAlertRules: () => Promise<AlertRule[]>;
+  saveAlertRules: (rules: AlertRule[]) => Promise<void>;
+  showNotification: (title: string, body: string) => Promise<void>;
 }
 
 declare global {

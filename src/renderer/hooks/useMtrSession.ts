@@ -46,6 +46,8 @@ export function useMtrSession(): UseMtrSessionReturn {
             ip: hop.ip || '???',
             hostname: hop.ip || '???',
             geo: '',
+            geoLat: null,
+            geoLon: null,
             sent: 0,
             received: 0,
             lossPercent: 0,

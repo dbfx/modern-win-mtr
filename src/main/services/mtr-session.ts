@@ -3,7 +3,7 @@ import { MtrSessionConfig, MtrSessionState, DiscoveredHop } from '../../shared/t
 import { runTraceroute, resolveHostname } from './traceroute';
 import { ping } from './ping';
 import { StatsCalculator } from './stats';
-import { lookupGeoIp } from './geoip';
+import { lookupGeoIpFull } from './geoip';
 
 export class MtrSession extends EventEmitter {
   private config: MtrSessionConfig;
@@ -40,8 +40,8 @@ export class MtrSession extends EventEmitter {
               resolveHostname(hop.ip).then((hostname) => {
                 this.stats.setHostname(hop.hopNumber, hostname);
               });
-              lookupGeoIp(hop.ip).then((geo) => {
-                this.stats.setGeo(hop.hopNumber, geo);
+              lookupGeoIpFull(hop.ip).then((result) => {
+                this.stats.setGeo(hop.hopNumber, result.location, result.lat, result.lon);
               });
             }
           },

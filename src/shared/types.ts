@@ -3,6 +3,8 @@ export interface HopData {
   ip: string;
   hostname: string;
   geo: string;
+  geoLat: number | null;
+  geoLon: number | null;
   sent: number;
   received: number;
   lossPercent: number;
@@ -60,6 +62,27 @@ export interface LossMonitorSample {
 
 export interface LossMonitorState {
   samples: LossMonitorSample[];
+}
+
+export type AlertMetric = 'latency' | 'loss' | 'jitter';
+export type AlertSource = 'trace' | 'loss-monitor';
+
+export interface AlertRule {
+  id: string;
+  name: string;
+  enabled: boolean;
+  source: AlertSource;
+  metric: AlertMetric;
+  threshold: number;
+  createdAt: number;
+}
+
+export interface FiredAlert {
+  id: string;
+  ruleId: string;
+  ruleName: string;
+  message: string;
+  timestamp: number;
 }
 
 export const IPC_CHANNELS = {

@@ -5,6 +5,8 @@ interface HopStats {
   ip: string;
   hostname: string;
   geo: string;
+  geoLat: number | null;
+  geoLon: number | null;
   sent: number;
   received: number;
   last: number | null;
@@ -30,6 +32,8 @@ export class StatsCalculator {
         ip,
         hostname: ip,
         geo: '',
+        geoLat: null,
+        geoLon: null,
         sent: 0,
         received: 0,
         last: null,
@@ -47,9 +51,13 @@ export class StatsCalculator {
     if (hop) hop.hostname = hostname;
   }
 
-  setGeo(hopNumber: number, geo: string): void {
+  setGeo(hopNumber: number, geo: string, lat?: number | null, lon?: number | null): void {
     const hop = this.hops.get(hopNumber);
-    if (hop) hop.geo = geo;
+    if (hop) {
+      hop.geo = geo;
+      if (lat !== undefined) hop.geoLat = lat;
+      if (lon !== undefined) hop.geoLon = lon;
+    }
   }
 
   addSample(hopNumber: number, rtt: number | null): void {
@@ -96,6 +104,8 @@ export class StatsCalculator {
         ip: hop.ip,
         hostname: hop.hostname,
         geo: hop.geo,
+        geoLat: hop.geoLat,
+        geoLon: hop.geoLon,
         sent: hop.sent,
         received: hop.received,
         lossPercent: Math.round(lossPercent * 10) / 10,
