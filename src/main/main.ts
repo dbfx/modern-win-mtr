@@ -1,12 +1,39 @@
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, ipcMain } from 'electron';
 import path from 'node:path';
 import started from 'electron-squirrel-startup';
+import { autoUpdater } from 'electron-updater';
 import { registerIpcHandlers, cleanupSession } from './ipc-handlers';
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (started) app.quit();
 
 let mainWindow: BrowserWindow | null = null;
+
+function setupAutoUpdater(win: BrowserWindow) {
+  autoUpdater.setFeedURL({
+    provider: 'github',
+    owner: 'dbfx',
+    repo: 'modern-win-mtr',
+  });
+  autoUpdater.autoDownload = false;
+  autoUpdater.autoInstallOnAppQuit = true;
+
+  const send = (channel: string, data?: unknown) => {
+    if (!win.isDestroyed()) win.webContents.send(channel, data);
+  };
+
+  autoUpdater.on('checking-for-update', () => send('updater:status', 'checking'));
+  autoUpdater.on('update-available', () => send('updater:status', 'available'));
+  autoUpdater.on('update-not-available', () => send('updater:status', 'up-to-date'));
+  autoUpdater.on('download-progress', (progress) => send('updater:progress', progress.percent));
+  autoUpdater.on('update-downloaded', () => send('updater:status', 'downloaded'));
+  autoUpdater.on('error', () => send('updater:status', 'error'));
+
+  ipcMain.handle('updater:check', () => autoUpdater.checkForUpdates().catch(() => {}));
+  ipcMain.handle('updater:download', () => autoUpdater.downloadUpdate().catch(() => {}));
+  ipcMain.handle('updater:install', () => autoUpdater.quitAndInstall());
+  ipcMain.handle('app:version', () => app.getVersion());
+}
 
 const createWindow = () => {
   mainWindow = new BrowserWindow({
@@ -36,6 +63,7 @@ const createWindow = () => {
   }
 
   registerIpcHandlers(mainWindow);
+  setupAutoUpdater(mainWindow);
 };
 
 app.on('ready', createWindow);

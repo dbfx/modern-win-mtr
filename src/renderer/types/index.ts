@@ -10,6 +10,12 @@ export interface MtrApi {
   startLossMonitor: () => Promise<void>;
   stopLossMonitor: () => Promise<void>;
   onLossData: (callback: (state: LossMonitorState) => void) => () => void;
+  getVersion: () => Promise<string>;
+  checkForUpdates: () => Promise<void>;
+  downloadUpdate: () => Promise<void>;
+  installUpdate: () => Promise<void>;
+  onUpdaterStatus: (callback: (status: string) => void) => () => void;
+  onUpdaterProgress: (callback: (percent: number) => void) => () => void;
 }
 
 declare global {

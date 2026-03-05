@@ -34,4 +34,20 @@ contextBridge.exposeInMainWorld('mtrApi', {
     ipcRenderer.on('loss:data', listener as (...args: unknown[]) => void);
     return () => { ipcRenderer.removeListener('loss:data', listener as (...args: unknown[]) => void); };
   },
+
+  // Auto-updater
+  getVersion: () => ipcRenderer.invoke('app:version'),
+  checkForUpdates: () => ipcRenderer.invoke('updater:check'),
+  downloadUpdate: () => ipcRenderer.invoke('updater:download'),
+  installUpdate: () => ipcRenderer.invoke('updater:install'),
+  onUpdaterStatus: (callback: (status: string) => void) => {
+    const listener = (_: unknown, status: string) => callback(status);
+    ipcRenderer.on('updater:status', listener as (...args: unknown[]) => void);
+    return () => { ipcRenderer.removeListener('updater:status', listener as (...args: unknown[]) => void); };
+  },
+  onUpdaterProgress: (callback: (percent: number) => void) => {
+    const listener = (_: unknown, percent: number) => callback(percent);
+    ipcRenderer.on('updater:progress', listener as (...args: unknown[]) => void);
+    return () => { ipcRenderer.removeListener('updater:progress', listener as (...args: unknown[]) => void); };
+  },
 });

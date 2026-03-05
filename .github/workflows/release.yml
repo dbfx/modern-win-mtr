@@ -27,6 +27,31 @@ jobs:
       - name: Build installers
         run: npm run make
 
+      - name: Generate latest.yml for auto-updater
+        shell: bash
+        run: |
+          VERSION=${GITHUB_REF_NAME#v}
+          SETUP_EXE=$(find out/make -name "*.exe" | head -1)
+          SETUP_NAME=$(basename "$SETUP_EXE")
+          SHA512=$(sha512sum "$SETUP_EXE" | awk '{print $1}')
+          SIZE=$(stat -c%s "$SETUP_EXE")
+
+          cat > out/make/latest.yml << EOF
+          version: ${VERSION}
+          files:
+            - url: ${SETUP_NAME}
+              sha512: ${SHA512}
+              size: ${SIZE}
+          path: ${SETUP_NAME}
+          sha512: ${SHA512}
+          releaseDate: $(date -u +"%Y-%m-%dT%H:%M:%S.000Z")
+          EOF
+
+          # Remove leading whitespace from heredoc
+          sed -i 's/^          //' out/make/latest.yml
+          echo "--- latest.yml ---"
+          cat out/make/latest.yml
+
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -35,6 +60,7 @@ jobs:
             out/make/**/*.exe
             out/make/**/*.zip
             out/make/**/*.nupkg
+            out/make/latest.yml
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
@@ -43,5 +69,8 @@ jobs:
           files: |
             out/make/**/*.exe
             out/make/**/*.zip
+            out/make/**/*.nupkg
+            out/make/**/RELEASES
+            out/make/latest.yml
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

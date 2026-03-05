@@ -4,11 +4,12 @@ import Layout from './components/Layout';
 import TraceView from './components/TraceView';
 import MapView from './components/MapView';
 import LossMonitorView from './components/LossMonitorView';
+import AboutView from './components/AboutView';
 import { useMtrSession } from './hooks/useMtrSession';
 import { useLossMonitor } from './hooks/useLossMonitor';
 
 export default function App() {
-  const [activeView, setActiveView] = useState<'trace' | 'map' | 'loss'>('trace');
+  const [activeView, setActiveView] = useState<'trace' | 'map' | 'loss' | 'about'>('trace');
   const { hops, status, target, resolvedIp, error, start, stop } = useMtrSession();
   const lossMonitor = useLossMonitor();
 
@@ -84,6 +85,18 @@ export default function App() {
               onStart={lossMonitor.start}
               onStop={lossMonitor.stop}
             />
+          </motion.div>
+        )}
+        {activeView === 'about' && (
+          <motion.div
+            key="about"
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.2 }}
+            className="h-full"
+          >
+            <AboutView />
           </motion.div>
         )}
       </AnimatePresence>
