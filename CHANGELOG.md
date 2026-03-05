@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.4.2](https://github.com/dbfx/modern-win-mtr/compare/v1.4.1...v1.4.2) (2026-03-05)
+
+
+### Performance
+
+* replace per-round ping process spawning with persistent ping processes ([dc1596a](https://github.com/dbfx/modern-win-mtr/commit/dc1596a06c73d99b138c3160fdca1de2bd5d65e3))
+
 ### [1.4.1](https://github.com/dbfx/modern-win-mtr/compare/v1.4.0...v1.4.1) (2026-03-05)
 
 
