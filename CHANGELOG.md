@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.5.0](https://github.com/dbfx/modern-win-mtr/compare/v1.4.2...v1.5.0) (2026-03-05)
+
+
+### Features
+
+* add macOS and Linux cross-platform support ([07267b7](https://github.com/dbfx/modern-win-mtr/commit/07267b729d88763a04f76da7489e217270ee6ffe))
+
 ### [1.4.2](https://github.com/dbfx/modern-win-mtr/compare/v1.4.1...v1.4.2) (2026-03-05)
 
 
