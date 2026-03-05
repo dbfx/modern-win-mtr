@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.4.0](https://github.com/dbfx/modern-win-mtr/compare/v1.3.2...v1.4.0) (2026-03-05)
+
+
+### Features
+
+* add visual traceroute map and alerts & notifications ([3742ba8](https://github.com/dbfx/modern-win-mtr/commit/3742ba80dd46a6926e08ee7c0f739acbdd24cf12))
+
 ### [1.3.2](https://github.com/dbfx/modern-win-mtr/compare/v1.3.0...v1.3.2) (2026-03-05)
 
 
