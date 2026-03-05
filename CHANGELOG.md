@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.0](https://github.com/dbfx/modern-win-mtr/compare/v1.1.0...v1.2.0) (2026-03-05)
+
+
+### Features
+
+* add auto-updater and About view ([55055dd](https://github.com/dbfx/modern-win-mtr/commit/55055dd1ec11b5c08e2100c748c7af15c8d51db6))
+
 ## [1.1.0](https://github.com/dbfx/modern-win-mtr/compare/v1.0.0...v1.1.0) (2026-03-05)
 
 
