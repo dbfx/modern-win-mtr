@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.2](https://github.com/dbfx/modern-win-mtr/compare/v1.3.0...v1.3.2) (2026-03-05)
+
+
+### Bug Fixes
+
+* latest.yml filename mismatch breaking auto-updater ([9153b46](https://github.com/dbfx/modern-win-mtr/commit/9153b46c78c7c9dafa12e19f736ec3c085990d0c))
+* show auto-updater error details in About view ([3325274](https://github.com/dbfx/modern-win-mtr/commit/332527423e7fcf77d1668626f657c2ee0bf2dc76))
+
 ### [1.3.1](https://github.com/dbfx/modern-win-mtr/compare/v1.3.0...v1.3.1) (2026-03-05)
 
 
