@@ -36,13 +36,16 @@ jobs:
           SHA512=$(sha512sum "$SETUP_EXE" | awk '{print $1}')
           SIZE=$(stat -c%s "$SETUP_EXE")
 
+          # GitHub replaces spaces with dots in release asset names
+          ASSET_NAME="${SETUP_NAME// /.}"
+
           cat > out/make/latest.yml << EOF
           version: ${VERSION}
           files:
-            - url: ${SETUP_NAME}
+            - url: ${ASSET_NAME}
               sha512: ${SHA512}
               size: ${SIZE}
-          path: ${SETUP_NAME}
+          path: ${ASSET_NAME}
           sha512: ${SHA512}
           releaseDate: $(date -u +"%Y-%m-%dT%H:%M:%S.000Z")
           EOF
