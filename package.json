@@ -1,7 +1,7 @@
 {
   "name": "modern-win-mtr",
   "productName": "Modern MTR",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "A beautiful, modern MTR (My Traceroute) tool built with Electron, React, and TypeScript",
   "main": ".vite/build/main.js",
   "repository": {

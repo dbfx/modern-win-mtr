@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.2.1](https://github.com/dbfx/modern-win-mtr/compare/v1.2.0...v1.2.1) (2026-03-05)
+
+
+### Bug Fixes
+
+* about view crash due to process.versions in sandboxed renderer ([2341add](https://github.com/dbfx/modern-win-mtr/commit/2341addb775966d2d5c159556bb3afbf59a7eba5))
+
 ## [1.2.0](https://github.com/dbfx/modern-win-mtr/compare/v1.1.0...v1.2.0) (2026-03-05)
 
 
