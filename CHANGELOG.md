@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.3.0](https://github.com/dbfx/modern-win-mtr/compare/v1.2.1...v1.3.0) (2026-03-05)
+
+
+### Features
+
+* simplify charts to show destination-only and rolling 50-ping loss window ([44b955e](https://github.com/dbfx/modern-win-mtr/commit/44b955e076966e96dc8c14f5b1ade3bbef9c5817))
+
+
+### Bug Fixes
+
+* use dynamodb endpoints for loss monitor ICMP targets ([c8f0add](https://github.com/dbfx/modern-win-mtr/commit/c8f0add352bc625084fda44c367a8168aef03462))
+
 ### [1.2.1](https://github.com/dbfx/modern-win-mtr/compare/v1.2.0...v1.2.1) (2026-03-05)
 
 
