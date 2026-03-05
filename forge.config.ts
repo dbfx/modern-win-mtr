@@ -1,4 +1,5 @@
 import path from 'path';
+import fs from 'fs';
 import type { ForgeConfig } from '@electron-forge/shared-types';
 import { MakerSquirrel } from '@electron-forge/maker-squirrel';
 import { MakerZIP } from '@electron-forge/maker-zip';
@@ -10,6 +11,16 @@ const config: ForgeConfig = {
     icon: path.resolve(__dirname, 'build', 'icon'),
     name: 'Modern MTR',
     executableName: 'modern-mtr',
+    extraResource: [path.resolve(__dirname, 'build', 'app-update.yml')],
+  },
+  hooks: {
+    generateAssets: async () => {
+      // Generate app-update.yml required by electron-updater
+      const yml = 'provider: github\nowner: dbfx\nrepo: modern-win-mtr\n';
+      const buildDir = path.resolve(__dirname, 'build');
+      if (!fs.existsSync(buildDir)) fs.mkdirSync(buildDir, { recursive: true });
+      fs.writeFileSync(path.join(buildDir, 'app-update.yml'), yml, 'utf-8');
+    },
   },
   rebuildConfig: {},
   makers: [
