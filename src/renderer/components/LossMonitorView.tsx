@@ -17,7 +17,6 @@ import {
   Line,
 } from 'react-simple-maps';
 import type { TargetStats } from '../hooks/useLossMonitor';
-import Sparkline from './Sparkline';
 
 const GEO_URL = 'https://cdn.jsdelivr.net/npm/world-atlas@2/land-110m.json';
 
@@ -56,24 +55,24 @@ export default function LossMonitorView({ targets, isRunning, onStart, onStop }:
 
     const maxLen = Math.max(...targets.map((t) => t.lossHistory.length));
     const sampleCount = Math.min(maxLen, 120);
-    const data: Record<string, number>[] = [];
+    const data: { idx: number; avg: number }[] = [];
 
     for (let i = 0; i < sampleCount; i++) {
-      const row: Record<string, number> = { idx: i };
+      let sum = 0;
+      let count = 0;
       for (const t of targets) {
         const offset = Math.max(0, t.lossHistory.length - sampleCount);
-        row[t.id] = t.lossHistory[offset + i] ?? 0;
+        const val = t.lossHistory[offset + i];
+        if (val !== undefined) {
+          sum += val;
+          count++;
+        }
       }
-      data.push(row);
+      data.push({ idx: i, avg: count > 0 ? Math.round((sum / count) * 10) / 10 : 0 });
     }
     return data;
   }, [targets]);
 
-  const targetMap = useMemo(() => {
-    const m = new Map<string, TargetStats>();
-    for (const t of targets) m.set(t.id, t);
-    return m;
-  }, [targets]);
 
   return (
     <div className="h-full flex flex-col">
@@ -160,27 +159,17 @@ export default function LossMonitorView({ targets, isRunning, onStart, onStop }:
         <div className="glass-card p-3 h-full">
           <div className="flex items-center justify-between mb-1 px-1">
             <div className="text-[10px] uppercase tracking-wider text-white/20">
-              Packet Loss Over Time
-            </div>
-            <div className="flex gap-3">
-              {targets.map((t) => (
-                <div key={t.id} className="flex items-center gap-1 text-[10px] text-white/30">
-                  <span className="w-2 h-2 rounded-full" style={{ backgroundColor: t.color }} />
-                  {t.name}
-                </div>
-              ))}
+              Avg Packet Loss Over Time (last 50 pings)
             </div>
           </div>
           {chartData.length > 0 ? (
             <ResponsiveContainer width="100%" height="85%">
               <AreaChart data={chartData}>
                 <defs>
-                  {targets.map((t) => (
-                    <linearGradient key={t.id} id={`loss-fill-${t.id}`} x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stopColor={t.color} stopOpacity={0.25} />
-                      <stop offset="100%" stopColor={t.color} stopOpacity={0} />
-                    </linearGradient>
-                  ))}
+                  <linearGradient id="loss-fill-avg" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="#ef4444" stopOpacity={0.3} />
+                    <stop offset="100%" stopColor="#ef4444" stopOpacity={0} />
+                  </linearGradient>
                 </defs>
                 <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.04)" />
                 <XAxis dataKey="idx" hide />
@@ -196,24 +185,18 @@ export default function LossMonitorView({ targets, isRunning, onStart, onStop }:
                 <Tooltip
                   contentStyle={TOOLTIP_STYLE}
                   labelFormatter={() => ''}
-                  formatter={(value: number, name: string) => {
-                    const t = targetMap.get(name);
-                    return [`${value}%`, t?.name || name];
-                  }}
+                  formatter={(value: number) => [`${value}%`, 'Avg Loss']}
                 />
-                {targets.map((t) => (
-                  <Area
-                    key={t.id}
-                    type="monotone"
-                    dataKey={t.id}
-                    stroke={t.color}
-                    strokeWidth={2}
-                    fill={`url(#loss-fill-${t.id})`}
-                    dot={false}
-                    isAnimationActive={false}
-                    connectNulls
-                  />
-                ))}
+                <Area
+                  type="monotone"
+                  dataKey="avg"
+                  stroke="#ef4444"
+                  strokeWidth={2}
+                  fill="url(#loss-fill-avg)"
+                  dot={false}
+                  isAnimationActive={false}
+                  connectNulls
+                />
               </AreaChart>
             </ResponsiveContainer>
           ) : (

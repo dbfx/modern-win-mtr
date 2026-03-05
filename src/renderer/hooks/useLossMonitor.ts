@@ -17,6 +17,7 @@ export interface TargetStats {
 }
 
 const HISTORY_SIZE = 200;
+const LOSS_WINDOW = 50;
 
 export interface UseLossMonitorReturn {
   targets: TargetStats[];
@@ -68,9 +69,11 @@ export function useLossMonitor(): UseLossMonitorReturn {
         stats.history.push(sample.rtt);
         if (stats.history.length > HISTORY_SIZE) stats.history.shift();
 
-        // Compute loss %
-        stats.lossPercent = stats.sent > 0
-          ? Math.round(((stats.lost) / stats.sent) * 1000) / 10
+        // Compute loss % over last LOSS_WINDOW pings
+        const lossWindow = stats.history.slice(-LOSS_WINDOW);
+        const lossCount = lossWindow.filter((v) => v === null).length;
+        stats.lossPercent = lossWindow.length > 0
+          ? Math.round((lossCount / lossWindow.length) * 1000) / 10
           : 0;
 
         // Compute average RTT (from non-null values)
@@ -79,9 +82,8 @@ export function useLossMonitor(): UseLossMonitorReturn {
           ? Math.round((validRtts.reduce((a, b) => a + b, 0) / validRtts.length) * 10) / 10
           : 0;
 
-        // Rolling loss history (loss % computed over last 10 samples window)
-        const windowSize = 10;
-        const recentWindow = stats.history.slice(-windowSize);
+        // Rolling loss history (loss % computed over last LOSS_WINDOW samples)
+        const recentWindow = stats.history.slice(-LOSS_WINDOW);
         const recentLoss = recentWindow.filter((v) => v === null).length;
         const rollingLoss = Math.round((recentLoss / recentWindow.length) * 100 * 10) / 10;
         stats.lossHistory.push(rollingLoss);
