@@ -29,7 +29,7 @@ const config: ForgeConfig = {
       setupIcon: path.resolve(__dirname, 'build', 'icon.ico'),
       iconUrl: 'https://raw.githubusercontent.com/dbfx/modern-win-mtr/main/build/icon.ico',
     }),
-    new MakerZIP({}),
+    new MakerZIP({}, ['darwin', 'linux']),
   ],
   plugins: [
     new VitePlugin({

@@ -1,13 +1,7 @@
 import { spawn } from 'child_process';
 import { DiscoveredHop } from '../../shared/types';
 import dns from 'dns';
-
-// Match hop lines — the IP at the end is optional (timeouts have none)
-// Examples:
-//   1     3 ms     1 ms     2 ms  192.168.50.1
-//   3     *        *        *     Request timed out.
-//  12     *        *        *     Request timed out.
-const HOP_REGEX = /^\s*(\d+)\s+([\d<]+\s*ms|\*)\s+([\d<]+\s*ms|\*)\s+([\d<]+\s*ms|\*)\s*([\d.]+)?\s*/;
+import { getTracerouteArgs, parseTracerouteHop, isTraceComplete } from './platform';
 
 // How many consecutive timeouts after a real hop before we stop early
 const MAX_CONSECUTIVE_TIMEOUTS = 5;
@@ -31,9 +25,8 @@ export function runTraceroute(
   let foundAnyIp = false;
 
   const sanitized = target.replace(/[;&|`$(){}[\]!#]/g, '');
-  const child = spawn('tracert', ['-d', '-w', '1000', '-h', String(maxHops), sanitized], {
-    windowsHide: true,
-  });
+  const { command, args } = getTracerouteArgs(sanitized, maxHops);
+  const child = spawn(command, args, { windowsHide: true });
 
   signal?.addEventListener('abort', () => {
     child.kill();
@@ -49,24 +42,20 @@ export function runTraceroute(
   const processLine = (line: string) => {
     if (completed) return;
 
-    // Detect "Trace complete" to end
-    if (line.includes('Trace complete')) {
+    if (isTraceComplete(line)) {
       finish();
       return;
     }
 
-    const match = line.match(HOP_REGEX);
-    if (!match) return;
+    const parsed = parseTracerouteHop(line);
+    if (!parsed) return;
 
-    const hopNumber = parseInt(match[1], 10);
-    const ip = match[5] || null;
-
-    const hop: DiscoveredHop = { hopNumber, ip };
+    const hop: DiscoveredHop = { hopNumber: parsed.hopNumber, ip: parsed.ip };
     hops.push(hop);
     callbacks.onHop(hop);
 
     // Track consecutive timeouts to stop early
-    if (ip) {
+    if (parsed.ip) {
       foundAnyIp = true;
       consecutiveTimeouts = 0;
     } else {
@@ -108,7 +97,7 @@ export function runTraceroute(
   });
 
   child.on('error', (err) => {
-    callbacks.onError(`Failed to start tracert: ${err.message}`);
+    callbacks.onError(`Failed to start traceroute: ${err.message}`);
   });
 }
 
