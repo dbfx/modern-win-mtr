@@ -7,6 +7,7 @@ export default function AboutView() {
   const [version, setVersion] = useState('');
   const [updateStatus, setUpdateStatus] = useState<UpdateStatus>('idle');
   const [downloadPercent, setDownloadPercent] = useState(0);
+  const [updateError, setUpdateError] = useState('');
 
   const processVersions = window.mtrApi.getProcessVersions();
 
@@ -26,11 +27,16 @@ export default function AboutView() {
       setDownloadPercent(Math.round(percent));
     });
 
-    return () => { unsub1(); unsub2(); };
+    const unsub3 = window.mtrApi.onUpdaterError((message: string) => {
+      setUpdateError(message);
+    });
+
+    return () => { unsub1(); unsub2(); unsub3(); };
   }, []);
 
   const handleCheckUpdate = () => {
     setUpdateStatus('checking');
+    setUpdateError('');
     window.mtrApi.checkForUpdates();
   };
 
@@ -85,6 +91,10 @@ export default function AboutView() {
             <span className="text-white/60 text-sm font-medium">Updates</span>
             <StatusBadge status={updateStatus} />
           </div>
+
+          {updateStatus === 'error' && updateError && (
+            <p className="text-red-400/70 text-xs mb-3 break-all">{updateError}</p>
+          )}
 
           {updateStatus === 'downloading' && (
             <div className="mb-3">

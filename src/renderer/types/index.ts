@@ -17,6 +17,7 @@ export interface MtrApi {
   installUpdate: () => Promise<void>;
   onUpdaterStatus: (callback: (status: string) => void) => () => void;
   onUpdaterProgress: (callback: (percent: number) => void) => () => void;
+  onUpdaterError: (callback: (message: string) => void) => () => void;
 }
 
 declare global {

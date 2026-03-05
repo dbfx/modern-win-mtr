@@ -57,4 +57,9 @@ contextBridge.exposeInMainWorld('mtrApi', {
     ipcRenderer.on('updater:progress', listener as (...args: unknown[]) => void);
     return () => { ipcRenderer.removeListener('updater:progress', listener as (...args: unknown[]) => void); };
   },
+  onUpdaterError: (callback: (message: string) => void) => {
+    const listener = (_: unknown, message: string) => callback(message);
+    ipcRenderer.on('updater:error', listener as (...args: unknown[]) => void);
+    return () => { ipcRenderer.removeListener('updater:error', listener as (...args: unknown[]) => void); };
+  },
 });

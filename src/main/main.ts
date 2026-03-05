@@ -27,7 +27,11 @@ function setupAutoUpdater(win: BrowserWindow) {
   autoUpdater.on('update-not-available', () => send('updater:status', 'up-to-date'));
   autoUpdater.on('download-progress', (progress) => send('updater:progress', progress.percent));
   autoUpdater.on('update-downloaded', () => send('updater:status', 'downloaded'));
-  autoUpdater.on('error', () => send('updater:status', 'error'));
+  autoUpdater.on('error', (err) => {
+    console.error('Auto-updater error:', err?.message || err);
+    send('updater:status', 'error');
+    send('updater:error', err?.message || String(err));
+  });
 
   ipcMain.handle('updater:check', () => autoUpdater.checkForUpdates().catch(() => {}));
   ipcMain.handle('updater:download', () => autoUpdater.downloadUpdate().catch(() => {}));
