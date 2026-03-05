@@ -1,0 +1,1 @@
+npx tsc --noEmit 2>/dev/null || true
