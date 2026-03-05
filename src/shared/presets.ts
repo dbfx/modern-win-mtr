@@ -169,10 +169,10 @@ export const PRESET_TARGETS: PresetTarget[] = [
 ];
 
 export const LOSS_MONITOR_TARGETS: LossMonitorTarget[] = [
-  { id: 'us-east', name: 'US East', hostname: 'ec2.us-east-1.amazonaws.com', color: '#06b6d4', coordinates: [-77.47, 39.04] },
-  { id: 'us-west', name: 'US West', hostname: 'ec2.us-west-2.amazonaws.com', color: '#14b8a6', coordinates: [-120.55, 43.80] },
-  { id: 'europe', name: 'Europe', hostname: 'ec2.eu-central-1.amazonaws.com', color: '#a855f7', coordinates: [8.68, 50.11] },
-  { id: 'middle-east', name: 'Middle East', hostname: 'ec2.me-central-1.amazonaws.com', color: '#f97316', coordinates: [54.37, 24.45] },
-  { id: 'asia', name: 'Asia', hostname: 'ec2.ap-east-1.amazonaws.com', color: '#fbbf24', coordinates: [114.17, 22.32] },
-  { id: 'africa', name: 'Africa', hostname: 'ec2.af-south-1.amazonaws.com', color: '#22c55e', coordinates: [18.42, -33.92] },
+  { id: 'us-east', name: 'US East', hostname: 'dynamodb.us-east-1.amazonaws.com', color: '#06b6d4', coordinates: [-77.47, 39.04] },
+  { id: 'us-west', name: 'US West', hostname: 'dynamodb.us-west-2.amazonaws.com', color: '#14b8a6', coordinates: [-120.55, 43.80] },
+  { id: 'europe', name: 'Europe', hostname: 'dynamodb.eu-central-1.amazonaws.com', color: '#a855f7', coordinates: [8.68, 50.11] },
+  { id: 'middle-east', name: 'Middle East', hostname: 'dynamodb.me-central-1.amazonaws.com', color: '#f97316', coordinates: [54.37, 24.45] },
+  { id: 'asia', name: 'Asia', hostname: 'dynamodb.ap-east-1.amazonaws.com', color: '#fbbf24', coordinates: [114.17, 22.32] },
+  { id: 'africa', name: 'Africa', hostname: 'dynamodb.af-south-1.amazonaws.com', color: '#22c55e', coordinates: [18.42, -33.92] },
 ];
