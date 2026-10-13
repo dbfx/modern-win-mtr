@@ -1,6 +1,58 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Tailwind v3 applied `hover:` unconditionally; v4 gates it behind `@media (hover: hover)`. */
+@custom-variant hover (&:hover);
+
+@theme {
+  --color-surface: #0a0a0f;
+  --color-surface-50: #12121a;
+  --color-surface-100: #1a1a26;
+  --color-surface-200: #22222e;
+  --color-surface-300: #2a2a3a;
+
+  --font-sans: Inter, system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+  --animate-pulse-slow: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  --animate-glow: glow 2s ease-in-out infinite alternate;
+
+  @keyframes glow {
+    0% {
+      box-shadow: 0 0 5px rgba(6, 182, 212, 0.2);
+    }
+    100% {
+      box-shadow: 0 0 20px rgba(6, 182, 212, 0.4);
+    }
+  }
+}
+
+/*
+  Tailwind v3 defaults that changed in v4, pinned so the UI looks the same:
+  default border colour (v4: currentcolor), placeholder colour (v4: 50% of the
+  text colour) and the pointer cursor on buttons (v4: default).
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    opacity: 1;
+    color: var(--color-gray-400);
+  }
+
+  button:not(:disabled),
+  [role='button']:not(:disabled) {
+    cursor: pointer;
+  }
+}
 
 @layer base {
   * {
@@ -41,7 +93,7 @@
   }
 
   .glass-card-hover {
-    @apply glass-card transition-all duration-300;
+    @apply bg-white/[0.04] backdrop-blur-xl border border-white/[0.08] rounded-2xl transition-all duration-300;
   }
 
   .glass-card-hover:hover {
@@ -49,11 +101,11 @@
   }
 
   .gradient-accent {
-    @apply bg-gradient-to-r from-cyan-500 to-teal-500;
+    @apply bg-linear-to-r/srgb from-cyan-500 to-teal-500;
   }
 
   .gradient-accent-text {
-    @apply bg-gradient-to-r from-cyan-400 to-teal-400 bg-clip-text text-transparent;
+    @apply bg-linear-to-r/srgb from-cyan-400 to-teal-400 bg-clip-text text-transparent;
   }
 
   .glow-cyan {

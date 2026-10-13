@@ -11,7 +11,7 @@ export default function Layout({ activeView, onViewChange, children }: LayoutPro
   return (
     <div className="h-screen w-screen flex flex-col overflow-hidden">
       {/* Title bar drag region */}
-      <div className="drag-region h-9 flex-shrink-0 flex items-center px-4">
+      <div className="drag-region h-9 shrink-0 flex items-center px-4">
         <span className="no-drag text-xs font-semibold tracking-wider text-white/30 uppercase">
           MTR
         </span>
@@ -19,7 +19,7 @@ export default function Layout({ activeView, onViewChange, children }: LayoutPro
 
       <div className="flex flex-1 overflow-hidden">
         {/* Sidebar */}
-        <nav className="w-14 flex-shrink-0 flex flex-col items-center py-4 gap-2 border-r border-white/[0.06]">
+        <nav className="w-14 shrink-0 flex flex-col items-center py-4 gap-2 border-r border-white/[0.06]">
           <SidebarButton
             active={activeView === 'trace'}
             onClick={() => onViewChange('trace')}

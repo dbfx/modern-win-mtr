@@ -59,7 +59,7 @@ export default function AboutView() {
       >
         {/* App icon and name */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-gradient-to-br from-cyan-500/20 to-purple-500/20 border border-white/[0.08] mb-4">
+          <div className="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-linear-to-br/srgb from-cyan-500/20 to-purple-500/20 border border-white/[0.08] mb-4">
             <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="url(#about-grad)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <defs>
                 <linearGradient id="about-grad" x1="0" y1="0" x2="24" y2="24">
@@ -100,7 +100,7 @@ export default function AboutView() {
             <div className="mb-3">
               <div className="w-full h-1.5 bg-white/[0.06] rounded-full overflow-hidden">
                 <motion.div
-                  className="h-full bg-gradient-to-r from-cyan-400 to-purple-400 rounded-full"
+                  className="h-full bg-linear-to-r/srgb from-cyan-400 to-purple-400 rounded-full"
                   initial={{ width: 0 }}
                   animate={{ width: `${downloadPercent}%` }}
                   transition={{ duration: 0.3 }}

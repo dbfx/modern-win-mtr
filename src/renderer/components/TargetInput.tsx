@@ -43,14 +43,14 @@ export default function TargetInput({ status, onStart, onStop }: TargetInputProp
           value={target}
           onChange={(e) => setTarget(e.target.value)}
           placeholder="Enter hostname or IP address..."
-          className="flex-1 bg-transparent text-sm text-gray-100 placeholder-white/20 outline-none font-mono"
+          className="flex-1 bg-transparent text-sm text-gray-100 placeholder-white/20 outline-hidden font-mono"
           disabled={isActive}
         />
 
         <select
           value={interval}
           onChange={(e) => setInterval(Number(e.target.value))}
-          className="bg-transparent text-xs text-white/40 outline-none cursor-pointer border-l border-white/10 pl-3"
+          className="bg-transparent text-xs text-white/40 outline-hidden cursor-pointer border-l border-white/10 pl-3"
           disabled={isActive}
         >
           {INTERVALS.map((i) => (

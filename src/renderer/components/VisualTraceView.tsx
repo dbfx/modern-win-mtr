@@ -159,7 +159,7 @@ export default function VisualTraceView({
   return (
     <div className="h-full flex flex-col p-4 overflow-hidden">
       {/* Header */}
-      <div className="flex-shrink-0 flex items-center gap-4 mb-2">
+      <div className="shrink-0 flex items-center gap-4 mb-2">
         <div>
           <h2 className="text-lg font-semibold gradient-accent-text">Visual Traceroute</h2>
           <p className="text-xs text-white/20 mt-0.5">
@@ -199,7 +199,7 @@ export default function VisualTraceView({
             onChange={(e) => setInputTarget(e.target.value)}
             placeholder="hostname or IP..."
             disabled={isRunning}
-            className="bg-white/[0.06] border border-white/[0.08] rounded-lg px-3 py-1.5 text-sm text-white/80 placeholder-white/20 w-56 focus:outline-none focus:border-cyan-500/40 disabled:opacity-50"
+            className="bg-white/[0.06] border border-white/[0.08] rounded-lg px-3 py-1.5 text-sm text-white/80 placeholder-white/20 w-56 focus:outline-hidden focus:border-cyan-500/40 disabled:opacity-50"
           />
           <button
             type={isRunning ? 'button' : 'submit'}
@@ -392,7 +392,7 @@ export default function VisualTraceView({
                     onMouseEnter={() => setHoveredPreset(pt.id)}
                     onMouseLeave={() => setHoveredPreset(null)}
                   >
-                    <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ backgroundColor: pt.color }} />
+                    <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: pt.color }} />
                     {pt.name}
                   </button>
                 ))}
