@@ -73,7 +73,7 @@ export default function OverviewCharts({ hops }: OverviewChartsProps) {
   const destLabel = lastHop.hostname || lastHop.ip || `Hop #${lastHop.hopNumber}`;
 
   return (
-    <div className="flex-shrink-0 px-4 pb-2">
+    <div className="shrink-0 px-4 pb-2">
       <div className="flex gap-3">
         {/* Latency */}
         <div className="flex-1 glass-card p-3" style={{ height: 160 }}>

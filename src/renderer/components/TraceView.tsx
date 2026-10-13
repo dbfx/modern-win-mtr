@@ -76,7 +76,7 @@ export default function TraceView({
             animate={{ height: 200, opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.3, ease: 'easeInOut' }}
-            className="flex-shrink-0 border-t border-white/[0.06] overflow-hidden"
+            className="shrink-0 border-t border-white/[0.06] overflow-hidden"
           >
             <div className="h-full p-4 flex gap-4">
               <div className="flex-1 glass-card p-3">

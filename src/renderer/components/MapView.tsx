@@ -55,7 +55,7 @@ export default function MapView({ onSelectTarget }: MapViewProps) {
 
   return (
     <div className="h-full flex flex-col p-6 overflow-hidden">
-      <div className="mb-4 flex-shrink-0">
+      <div className="mb-4 shrink-0">
         <h2 className="text-lg font-semibold gradient-accent-text">Global Targets</h2>
         <p className="text-xs text-white/20 mt-1">Click a location to start tracing</p>
       </div>
@@ -168,7 +168,7 @@ export default function MapView({ onSelectTarget }: MapViewProps) {
         </div>
 
         {/* Target list - scrollable */}
-        <div className="w-56 flex-shrink-0 overflow-y-auto pr-1 flex flex-col gap-3 custom-scrollbar">
+        <div className="w-56 shrink-0 overflow-y-auto pr-1 flex flex-col gap-3 custom-scrollbar">
           {TARGET_GROUPS.map((group) => (
             <div key={group.label}>
               <div className="text-[10px] font-semibold uppercase tracking-wider text-white/25 px-1 mb-1.5">
@@ -222,7 +222,7 @@ function TargetCard({
     >
       <div className="flex items-center gap-2.5">
         <div
-          className="w-2 h-2 rounded-full flex-shrink-0"
+          className="w-2 h-2 rounded-full shrink-0"
           style={{ backgroundColor: target.color }}
         />
         <div className="min-w-0">

@@ -60,7 +60,7 @@ export default function AlertsView({
 
   return (
     <div className="h-full flex flex-col p-6 overflow-hidden">
-      <div className="flex-shrink-0 flex items-center justify-between mb-4">
+      <div className="shrink-0 flex items-center justify-between mb-4">
         <div>
           <h2 className="text-lg font-semibold gradient-accent-text">Alerts & Notifications</h2>
           <p className="text-xs text-white/20 mt-1">
@@ -82,7 +82,7 @@ export default function AlertsView({
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="flex-shrink-0 mb-4 overflow-hidden"
+            className="shrink-0 mb-4 overflow-hidden"
             onSubmit={handleSubmit}
           >
             <div className="glass-card p-4">
@@ -94,7 +94,7 @@ export default function AlertsView({
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder="e.g. High latency alert"
-                    className="w-full bg-white/[0.06] border border-white/[0.08] rounded-lg px-3 py-1.5 text-sm text-white/80 placeholder-white/20 focus:outline-none focus:border-cyan-500/40"
+                    className="w-full bg-white/[0.06] border border-white/[0.08] rounded-lg px-3 py-1.5 text-sm text-white/80 placeholder-white/20 focus:outline-hidden focus:border-cyan-500/40"
                   />
                 </div>
                 <div>
@@ -102,7 +102,7 @@ export default function AlertsView({
                   <select
                     value={source}
                     onChange={(e) => setSource(e.target.value as AlertSource)}
-                    className="w-full bg-white/[0.06] border border-white/[0.08] rounded-lg px-3 py-1.5 text-sm text-white/80 focus:outline-none focus:border-cyan-500/40"
+                    className="w-full bg-white/[0.06] border border-white/[0.08] rounded-lg px-3 py-1.5 text-sm text-white/80 focus:outline-hidden focus:border-cyan-500/40"
                   >
                     {SOURCE_OPTIONS.map((s) => (
                       <option key={s.value} value={s.value}>{s.label}</option>
@@ -114,7 +114,7 @@ export default function AlertsView({
                   <select
                     value={metric}
                     onChange={(e) => setMetric(e.target.value as AlertMetric)}
-                    className="w-full bg-white/[0.06] border border-white/[0.08] rounded-lg px-3 py-1.5 text-sm text-white/80 focus:outline-none focus:border-cyan-500/40"
+                    className="w-full bg-white/[0.06] border border-white/[0.08] rounded-lg px-3 py-1.5 text-sm text-white/80 focus:outline-hidden focus:border-cyan-500/40"
                   >
                     {METRIC_OPTIONS.filter((m) => !(source === 'loss-monitor' && m.value === 'jitter')).map((m) => (
                       <option key={m.value} value={m.value}>{m.label}</option>
@@ -131,7 +131,7 @@ export default function AlertsView({
                     onChange={(e) => setThreshold(e.target.value)}
                     min="0"
                     step="any"
-                    className="w-full bg-white/[0.06] border border-white/[0.08] rounded-lg px-3 py-1.5 text-sm text-white/80 focus:outline-none focus:border-cyan-500/40"
+                    className="w-full bg-white/[0.06] border border-white/[0.08] rounded-lg px-3 py-1.5 text-sm text-white/80 focus:outline-hidden focus:border-cyan-500/40"
                   />
                 </div>
               </div>
@@ -171,7 +171,7 @@ export default function AlertsView({
                     {/* Toggle */}
                     <button
                       onClick={() => onToggleRule(rule.id)}
-                      className={`w-9 h-5 rounded-full relative transition-colors flex-shrink-0 ${
+                      className={`w-9 h-5 rounded-full relative transition-colors shrink-0 ${
                         rule.enabled ? 'bg-cyan-500/40' : 'bg-white/[0.08]'
                       }`}
                     >
@@ -197,7 +197,7 @@ export default function AlertsView({
                     {/* Delete */}
                     <button
                       onClick={() => onRemoveRule(rule.id)}
-                      className="text-white/20 hover:text-red-400 transition-colors flex-shrink-0"
+                      className="text-white/20 hover:text-red-400 transition-colors shrink-0"
                       title="Delete rule"
                     >
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -213,7 +213,7 @@ export default function AlertsView({
         </div>
 
         {/* Recent alerts log */}
-        <div className="w-80 flex-shrink-0 flex flex-col min-h-0">
+        <div className="w-80 shrink-0 flex flex-col min-h-0">
           <div className="text-[10px] font-semibold uppercase tracking-wider text-white/25 mb-2">
             Recent Alerts ({recentAlerts.length})
           </div>
@@ -226,9 +226,9 @@ export default function AlertsView({
               recentAlerts.map((alert) => (
                 <div key={alert.id} className="glass-card p-2.5 text-xs">
                   <div className="flex items-center gap-2 mb-1">
-                    <span className="w-1.5 h-1.5 rounded-full bg-orange-400 flex-shrink-0" />
+                    <span className="w-1.5 h-1.5 rounded-full bg-orange-400 shrink-0" />
                     <span className="text-white/60 font-medium truncate">{alert.ruleName}</span>
-                    <span className="text-white/20 ml-auto flex-shrink-0">{formatTime(alert.timestamp)}</span>
+                    <span className="text-white/20 ml-auto shrink-0">{formatTime(alert.timestamp)}</span>
                   </div>
                   <div className="text-white/30 pl-3.5">{alert.message}</div>
                 </div>

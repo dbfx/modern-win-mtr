@@ -77,7 +77,7 @@ export default function LossMonitorView({ targets, isRunning, onStart, onStop }:
   return (
     <div className="h-full flex flex-col">
       {/* Header */}
-      <div className="flex-shrink-0 px-4 pt-3 pb-2 flex items-center justify-between">
+      <div className="shrink-0 px-4 pt-3 pb-2 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <h2 className="text-sm font-semibold text-white/60 uppercase tracking-wider">
             Packet Loss Monitor
@@ -155,7 +155,7 @@ export default function LossMonitorView({ targets, isRunning, onStart, onStop }:
       </div>
 
       {/* Full-width packet loss chart */}
-      <div className="flex-shrink-0 px-4 pb-3" style={{ height: 160 }}>
+      <div className="shrink-0 px-4 pb-3" style={{ height: 160 }}>
         <div className="glass-card p-3 h-full">
           <div className="flex items-center justify-between mb-1 px-1">
             <div className="text-[10px] uppercase tracking-wider text-white/20">
@@ -208,7 +208,7 @@ export default function LossMonitorView({ targets, isRunning, onStart, onStop }:
       </div>
 
       {/* Location cards row */}
-      <div className="flex-shrink-0 px-4 pb-4">
+      <div className="shrink-0 px-4 pb-4">
         <div className="grid grid-cols-6 gap-2">
           {targets.map((t, i) => (
             <motion.div
@@ -219,7 +219,7 @@ export default function LossMonitorView({ targets, isRunning, onStart, onStop }:
               className="glass-card p-3"
             >
               <div className="flex items-center gap-2 mb-2">
-                <span className="w-2.5 h-2.5 rounded-full flex-shrink-0" style={{ backgroundColor: t.color }} />
+                <span className="w-2.5 h-2.5 rounded-full shrink-0" style={{ backgroundColor: t.color }} />
                 <span className="text-xs font-medium text-white/80 truncate">{t.name}</span>
               </div>
 
